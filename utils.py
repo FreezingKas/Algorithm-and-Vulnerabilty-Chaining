@@ -3,7 +3,7 @@ import math
 from variables import parameters_value, parameters
 
 
-def round_decimals_up(number: float, decimals: int) -> float:
+def roundup(number: float, decimals: int) -> float:
     """
     Returns a value rounded up to a specific number of decimal places.
     """
@@ -25,7 +25,6 @@ def args_formatter(cvss_params: list) -> None:
     :param cvss_params:
     :return: None
     """
-
     invalid_indexes = []
 
     # for each args we check if it is empty or not in the valid arguments
@@ -45,5 +44,6 @@ def args_formatter(cvss_params: list) -> None:
         for val in invalid_indexes:
             p = ""
             while p not in parameters_value[parameters[val]]:
-                p = input("Donnez la valeur de " + parameters[val] + " : ")
+                print("Donnez la valeur de " + parameters[val] + ". Valeur possible : " + " ".join(parameters_value[parameters[val]]))
+                p = input("--> ")
                 cvss_params[val] = p

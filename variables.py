@@ -1,18 +1,20 @@
 parameters = ["AttackVector",
               "AttackComplexity",
-              "PrivilegeRequired",
+              "PrivilegesRequired",
               "UserInteraction",
               "Scope",
-              "ConfidentialtyImpact",
+              "ConfidentialityImpact",
               "IntegrityImpact",
               "AvailabilityImpact"]
 
-parameters_value = {"AttackVector": {"network": 0.85, "adjacent": 0.62, "local": 0.55, "physical": 0.2},
+# low and high of PrivilegesRequired are initialized to 0 because we change the value in calculate()
+# unchanged and changed for scope doesn't have values
+parameters_value = {"AttackVector": {"network": 0.85, "adjacent_network": 0.62, "local": 0.55, "physical": 0.2},
                     "AttackComplexity": {"low": 0.77, "high": 0.44},
-                    "PrivilegeRequired": {"none": 0.85, "low": 0.62, "high": 0.27},
+                    "PrivilegesRequired": {"none": 0.85, "low": 0, "high": 0},
                     "UserInteraction": {"none": 0.85, "required": 0.62},
                     "Scope": ["unchanged", "changed"],
-                    "ConfidentialtyImpact": {"none": 0, "low": 0.22, "high": 0.56},
+                    "ConfidentialityImpact": {"none": 0, "low": 0.22, "high": 0.56},
                     "IntegrityImpact": {"none": 0, "low": 0.22, "high": 0.56},
                     "AvailabilityImpact": {"none": 0, "low": 0.22, "high": 0.56}}
 

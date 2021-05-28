@@ -1,5 +1,5 @@
-from variables import parameters_value, parameters
-from utils import round_decimals_up, args_formatter
+from variables import parameters_value
+from utils import roundup
 
 
 def calculate(cvss_params: list) -> float:
@@ -8,9 +8,8 @@ def calculate(cvss_params: list) -> float:
     :param cvss_params:
     :return: CVSS
     """
-
     # First we have to calculate ISS
-    ISS = 1 - ((1 - parameters_value["ConfidentialtyImpact"][cvss_params[5]])
+    ISS = 1 - ((1 - parameters_value["ConfidentialityImpact"][cvss_params[5]])
                * (1 - parameters_value["IntegrityImpact"][cvss_params[6]])
                * (1 - parameters_value["AvailabilityImpact"][cvss_params[7]]))
 
@@ -24,14 +23,16 @@ def calculate(cvss_params: list) -> float:
     # before calculating exploitability we have to check the scope
     # for the value of PrivilegeRequired
     if cvss_params[4] == "changed":
-        parameters_value["PrivilegeRequired"]["low"] = 0.68
-        parameters_value["PrivilegeRequired"]["high"] = 0.5
+        parameters_value["PrivilegesRequired"]["low"] = 0.68
+        parameters_value["PrivilegesRequired"]["high"] = 0.5
+    elif cvss_params[4] == "unchanged":
+        parameters_value["PrivilegesRequired"]["low"] = 0.62
+        parameters_value["PrivilegesRequired"]["high"] = 0.27
 
-    exploitability = 8.22 \
-                     * parameters_value["AttackVector"][cvss_params[0]] \
-                     * parameters_value["AttackComplexity"][cvss_params[1]] \
-                     * parameters_value["PrivilegeRequired"][cvss_params[2]] \
-                     * parameters_value["UserInteraction"][cvss_params[3]]
+    exploitability = 8.22 * parameters_value["AttackVector"][cvss_params[0]] \
+                          * parameters_value["AttackComplexity"][cvss_params[1]] \
+                          * parameters_value["PrivilegesRequired"][cvss_params[2]] \
+                          * parameters_value["UserInteraction"][cvss_params[3]]
 
     base_score = 0
     # Now we can calculate the BaseScore
@@ -39,11 +40,8 @@ def calculate(cvss_params: list) -> float:
         base_score = 0
     else:
         if cvss_params[4] == "unchanged":
-            base_score = round_decimals_up(min(impact + exploitability, 10), 1)
+            base_score = roundup(min(impact + exploitability, 10), 1)
         elif cvss_params[4] == "changed":
-            base_score = round_decimals_up(min(1.08 * (impact + exploitability), 10), 1)
+            base_score = roundup(min(1.08 * (impact + exploitability), 10), 1)
 
     return base_score
-
-
-
