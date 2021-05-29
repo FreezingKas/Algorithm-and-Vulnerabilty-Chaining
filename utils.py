@@ -44,6 +44,7 @@ def args_formatter(cvss_params: list) -> None:
         for val in invalid_indexes:
             p = ""
             while p not in parameters_value[parameters[val]]:
-                print("Donnez la valeur de " + parameters[val] + ". Valeur possible : " + " ".join(parameters_value[parameters[val]]))
+                print("Donnez la valeur de " + parameters[val]
+                      + ". Valeur possible : " + " ".join(parameters_value[parameters[val]]))
                 p = input("--> ")
                 cvss_params[val] = p
