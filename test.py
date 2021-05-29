@@ -5,6 +5,7 @@ from Vulnerability import Vulnerability
 from cvss_calculator import calculate_basescore
 from utils import args_formatter
 from variables import parameters
+from vulnerability_chainer import vulnerability_chainer
 
 
 class MyTestCase(unittest.TestCase):
@@ -63,7 +64,12 @@ class MyTestCase(unittest.TestCase):
         Test the vulnerability chaining
         :return:
         """
-        pass
+        test_list = [["local", "low", "low", "none", "unchanged", "low", "low", "none"],
+                     ["network", "low", "none", "none", "unchanged", "low", "low", "none"],
+                     ["local", "low", "high", "none", "unchanged", "high", "high", "high"]]
+
+        res = vulnerability_chainer(test_list)
+        self.assertEqual(res, 9.8, "Should be 9.8")
 
 
 if __name__ == '__main__':
