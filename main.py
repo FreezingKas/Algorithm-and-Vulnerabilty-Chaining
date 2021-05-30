@@ -1,15 +1,16 @@
-import sys
-import json
-from utils import args_formatter
+
 from Vulnerability import Vulnerability
-from vulnerability_chainer import vulnerability_chainer
 
 
 def main() -> None:
     """
-    A little function to test calulation with list and Vulnerability object
+    A little main function to show calculation with Vulnerability object
     :return:
     """
+    parameters_list = ["local", "low", "low", "none", "unchanged", "low", "low", "none"]
+    v = Vulnerability(parameters_list)
+    print(v.get_basescore())
+
 
 if __name__ == "__main__":
     main()

@@ -1,4 +1,4 @@
-# Useful ist of parameters
+# Useful list of parameters
 parameters = ["AttackVector",
               "AttackComplexity",
               "PrivilegesRequired",

@@ -2,7 +2,6 @@ import json
 import unittest
 
 from Vulnerability import Vulnerability
-from utils import args_formatter
 from variables import parameters
 from vulnerability_chainer import vulnerability_chainer
 
