@@ -2,7 +2,6 @@ import json
 import unittest
 
 from Vulnerability import Vulnerability
-from cvss_calculator import calculate_basescore
 from utils import args_formatter
 from variables import parameters
 from vulnerability_chainer import vulnerability_chainer
@@ -55,8 +54,8 @@ class MyTestCase(unittest.TestCase):
         basescore = [4.4, 6.5, 6.7]
 
         for idx, vuln in enumerate(test_list):
-            args_formatter(vuln)
-            res = calculate_basescore(vuln)
+            v = Vulnerability(vuln)
+            res = v.get_basescore()
             self.assertEqual(res, basescore[idx], f"Should be {basescore[idx]}")
 
     def test_chain(self):
@@ -64,9 +63,9 @@ class MyTestCase(unittest.TestCase):
         Test the vulnerability chaining
         :return:
         """
-        test_list = [["local", "low", "low", "none", "unchanged", "low", "low", "none"],
-                     ["network", "low", "none", "none", "unchanged", "low", "low", "none"],
-                     ["local", "low", "high", "none", "unchanged", "high", "high", "high"]]
+        test_list = [Vulnerability(["local", "low", "low", "none", "unchanged", "low", "low", "none"]),
+                     Vulnerability(["network", "low", "none", "none", "unchanged", "low", "low", "none"]),
+                     Vulnerability(["local", "low", "high", "none", "unchanged", "high", "high", "high"])]
 
         res = vulnerability_chainer(test_list)
         self.assertEqual(res, 9.8, "Should be 9.8")
